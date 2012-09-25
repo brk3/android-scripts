@@ -40,6 +40,8 @@ root = etree.Element("resources")
 for count, tag in enumerate(tags):
     e = etree.Element("string", name=tag)
     e.text = translations[count]
+    # don't add empty entries, android should fall back to english translation
+    if e.text == '': continue
     root.append(e)
 
 with codecs.open('/tmp/output.xml', encoding='utf-8', mode='w') as outfile:
