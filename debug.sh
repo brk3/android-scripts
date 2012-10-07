@@ -90,7 +90,7 @@ PKG_NAME=${PKG_NAME-"$(grep 'package' AndroidManifest.xml | \
     awk -F= '{ print $2 }' | sed "s/^\([\"']\)\(.*\)\1\$/\2/g")"}
 RUN_CMD=${RUN_CMD-"adb shell 'am start -a android.intent.action.MAIN -n \
     $PKG_NAME/.'$ACTIVITY"}
-INSTALL_CMD=${INSTALL_CMD-"ant debug install"}
+INSTALL_CMD=${INSTALL_CMD-"ant installd"}
 UNINSTALL_CMD=${UNINSTALL_CMD-"adb uninstall $PKG_NAME"}
 
 if $RUN || $THEWORKS; then
@@ -105,11 +105,7 @@ if $CLEAN; then
 fi
 
 if $BUILD || $THEWORKS; then
-    # As of adt 20 'debug install' also builds. So no need to run this
-    # step if we've been given -i
-    if [[ ! $INSTALL ]]; then
-        eval $BUILD_CMD
-    fi
+    eval $BUILD_CMD
 fi
 
 if $UNINSTALL || $THEWORKS; then
